@@ -27,7 +27,7 @@ const authMiddleware = (req, res, next) => {
 
 
 
-router.get('/admin', async (req, res) => {
+router.get('/login', async (req, res) => {
     try {
         const locals = {
             title: "Admin",
@@ -41,7 +41,7 @@ router.get('/admin', async (req, res) => {
     }
 });
 
-router.post('/admin', async (req, res) => {
+router.post('/login', async (req, res) => {
     try {
 
         const { username, password } = req.body;
@@ -160,7 +160,34 @@ router.put('/edit-post/:id', authMiddleware, async (req, res) => {
     }
 });
 
+router.delete('/edit-post/:postID/comments/:commentID', authMiddleware, async (req, res) => {
+    try {
+        let data = await Post.findById( { _id: req.params.postID });
 
+        data.comments = data.comments.filter(comment => comment._id != req.params.commentID);
+        await data.save();
+
+        res.redirect(`/edit-post/${req.params.postID}`);
+    } catch (error) {
+        console.log(error);
+    }
+});
+
+router.post('/approve-comment/:postID/comments/:commentID', authMiddleware, async (req, res) => {
+    try {
+        let data = await Post.findById( { _id: req.params.postID });
+
+        const comment = data.comments.find(comment => comment._id == req.params.commentID);
+
+        comment.approved = true;
+        
+        await data.save();
+
+        res.redirect(`/edit-post/${req.params.postID}`);
+    } catch (error) {
+        console.log(error);
+    }
+});
 
 router.delete('/delete-post/:id', authMiddleware, async (req, res) => {
     try {

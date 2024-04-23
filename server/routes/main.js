@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Post = require('../models/Post');
+const Mailer = require('../models/Mailer')
 
 router.get('', async (req, res) => {
     try {
@@ -94,5 +95,44 @@ router.post('/search', async (req, res) => {
         console.log(error);
     }
 })
+
+router.post('/subscribe', async (req, res) => {
+    try {
+        const { email, fName } = req.body;
+        try {
+            const user = await Mailer.create({ email, fName })
+            res.redirect('/');
+        } catch (error) {
+            if (error.code === 11000) {
+                res.status(409).json({ message: 'Email already in use'});
+            }
+            res.status(500);
+        }
+    } catch (error) {
+        console.log(error);
+    }
+})
+
+router.post('/post/:id/comment', async (req, res) => {
+    try {
+        const comment = {
+            name: req.body.name,
+            email: req.body.email,
+            message: req.body.message
+        }
+        
+        let slug = req.params.id;
+        const data = await Post.findById({_id: slug});
+
+        data.comments.push(comment);
+
+        await data.save();
+
+        res.redirect(`/post/${req.params.id}`);
+
+    } catch (error) {
+        console.log(error);
+    }
+}); 
 
 module.exports = router;

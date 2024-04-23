@@ -18,3 +18,24 @@
 
     <input type="submit" value="Update" class="btn">
 </form>
+
+
+<% if (data.comments.length > 0) { %>
+    <% data.comments.forEach(comment => { %>
+        <div class="comment">
+            <h4><%= comment.name %></h4>
+            <p><%= comment.email %></p>
+            <p><%= comment.message %></p>
+            <form action="/edit-post/<%= data._id %>/comments/<%= comment._id %>?_method=DELETE" method="POST">
+                <input type="submit" value="Delete" class="btn btn-sm btn-danger">
+            </form>
+            <% if (!comment.approved) { %>
+                <form action="/approve-comment/<%= data._id %>/comments/<%= comment._id %>" method="POST">
+                    <input type="submit" value="Approve?" class="btn btn-sm btn-success">
+                </form>
+            <% } %>
+        </div>
+    <% }) %>
+<% } else { %>
+    <p>No comments yet.</p>
+<% } %>

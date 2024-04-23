@@ -130,6 +130,7 @@ img {
     justify-content: center;
 }
 
+
 .header_button {
     display: flex;
     justify-content: end;
@@ -164,6 +165,7 @@ img {
 .header_nav ul a {
     padding: 10px;
     text-decoration: none;
+    color: var(--black);
 }
 
 .header_nav ul a:hover {
@@ -331,4 +333,10 @@ img {
   display: flex;
   justify-content: space-between;
   padding: 10px 0;
+}
+
+.black-section {
+    margin: 10px 0;
+    background-color: var(--black); /* Black background color */
+    color: var(--grey-light); /* White text color */
 }

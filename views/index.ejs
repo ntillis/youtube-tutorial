@@ -3,7 +3,15 @@
     <p class="author_body">Web developer and blog maker</p>
 </div>
 
-<img src="/img/hero-image.webp" alt="person looking out window" class="hero-image" width="981" height="528">
+<img src="/img/iceland.jpeg" alt="person looking out window" class="hero-image" width="981" height="528">
+
+<div class="container-fluid black-section text-center py-4">
+    <h2>Contact Me: </h2>
+    <a href="https://www.facebook.com">
+    <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="50" height="50" viewBox="0 0 48 48">
+        <path fill="#039be5" d="M24 5A19 19 0 1 0 24 43A19 19 0 1 0 24 5Z"></path><path fill="#fff" d="M26.572,29.036h4.917l0.772-4.995h-5.69v-2.73c0-2.075,0.678-3.915,2.619-3.915h3.119v-4.359c-0.548-0.074-1.707-0.236-3.897-0.236c-4.573,0-7.254,2.415-7.254,7.917v3.323h-4.701v4.995h4.701v13.729C22.089,42.905,23.032,43,24,43c0.875,0,1.729-0.08,2.572-0.194V29.036z"></path>
+    </svg></a>
+</div>
 
 <section class="articles">
     <h2 class="articles_heading">Latest Posts</h2>
@@ -25,3 +33,23 @@
         <a href="/?page=<%= nextPage %>" class="pagination">&lt; View Older Posts</a>
     <% } %>
 </section>
+
+<div class="container subscription">
+    <div class="card m-5 mx-auto" style="width:60%; border:2px solid #52663b">
+        <div class="card-body">
+            <h3 class="card-title text-center m-4">Wanna get notified about new posts?</h3>
+            <p class="card-text text-center m-4">Sign up for the mailing list!</p>
+            <form action="/subscribe" method="post">
+                <div class="form-group form-floating m-2">
+                    <input type="text" name="fName" class="form-control" required>
+                    <label for="fName">First Name:</label>
+                </div>
+                <div class="form-group form-floating m-2">
+                    <input type="email" name="email" class="form-control" required>
+                    <label for="email">Email:</label>
+                </div>
+                <button class="btn d-block mx-auto mt-4 mb-4 newsletter-btn" style="background-color:#31312f; color:#ffffff; border-radius:0;" type="submit">Sign Up</button>
+            </form>
+        </div>
+    </div>
+</div>
