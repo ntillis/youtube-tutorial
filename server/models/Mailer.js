@@ -10,6 +10,10 @@ const MailerSchema = new Schema({
     fName: {
         type: String,
         required: true
+    },
+    verfied: {
+        type: Boolean,
+        default: false
     }
 });
 

@@ -2,12 +2,13 @@ const express = require('express');
 const router = express.Router();
 const Post = require('../models/Post');
 const Mailer = require('../models/Mailer')
+const Tag = require('../models/Tag')
 
 router.get('', async (req, res) => {
     try {
         const locals = {
-            title: "Nodejs Blog",
-            description: "Simple Blog created with Nodejs"
+            title: "Thinking at 12am",
+            description: "A random thought blog"
         }
 
         let perPage = 5;
@@ -18,6 +19,8 @@ router.get('', async (req, res) => {
         .limit(perPage)
         .exec();
 
+        const tags = await Tag.find();
+
         const count = await Post.countDocuments();
         const nextPage = parseInt(page) + 1;
         const hasNextPage = nextPage <= Math.ceil(count/perPage);
@@ -26,6 +29,7 @@ router.get('', async (req, res) => {
         res.render('index', { 
             locals, 
             data,
+            tags,
             current: page,
             nextPage: hasNextPage ? nextPage : null,
             currentRoute: '/'
@@ -57,13 +61,23 @@ router.get('/post/:id', async (req, res) => {
 });
 
 router.get('/about', (req, res) => {
+    const locals = {
+        title: "ta12am | about",
+        description: "A random thought blog"
+    }
     res.render('about', {
+        locals,
         currentRoute: '/about'
     });
 });
 
 router.get('/contact', (req, res) => {
+    const locals = {
+        title: "ta12am | contact",
+        description: "A random thought blog"
+    }
     res.render('contact', {
+        locals,
         currentRoute: '/contact'
     });
 });
@@ -95,6 +109,28 @@ router.post('/search', async (req, res) => {
         console.log(error);
     }
 })
+
+router.get('/search/tags/:name', async (req, res) => {
+    try {
+        const tagName = req.params.name;
+        const locals = {
+            title: tagName + " blogs",
+            description: "blogs that have the corresponding tag"
+        }
+        const tag = await Tag.findOne({ name: tagName });
+
+        const posts = await Post.find({ tags: tag._id });
+
+        res.render("tag", {
+            tagName,
+            locals,
+            posts,
+            currentRoute: `/search/tags/${tag}`
+        });
+    } catch (error) {
+        console.log(error);
+    }
+});
 
 router.post('/subscribe', async (req, res) => {
     try {

@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Post = require('../models/Post');
 const User = require('../models/User');
+const Tag = require('../models/Tag');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
@@ -95,8 +96,11 @@ router.get('/add-post', authMiddleware, async (req, res) => {
             title: 'Add Post'
         }
 
+        const tags = await Tag.find();
+
         res.render('admin/add-post', {
             locals,
+            tags,
             layout: adminLayout
         });
 
@@ -107,11 +111,11 @@ router.get('/add-post', authMiddleware, async (req, res) => {
 
 router.post('/add-post', authMiddleware, async (req, res) => {
     try {
-
         try {
             const newPost = new Post({
                 title: req.body.title,
-                body: req.body.body
+                body: req.body.body,
+                tags: req.body.tags
             });
 
             await Post.create(newPost);
@@ -216,6 +220,26 @@ router.post('/register', async (req, res) => {
         } catch (error) {
             if (error.code === 11000) {
                 res.status(409).json({ message: 'User already in use'});
+            }
+            res.status(500).json({ message: 'Internal Server Error' })
+        }
+
+    } catch (error) {
+        console.log(error);
+    }
+});
+
+router.post('/tags', async (req, res) => {
+    try {
+
+        const { name } = req.body;
+
+        try {
+            const tag = await Tag.create({ name });
+            res.redirect("/add-post");
+        } catch (error) {
+            if (error.code === 11000) {
+                res.status(409).json({ message: 'Tag already in use'});
             }
             res.status(500).json({ message: 'Internal Server Error' })
         }

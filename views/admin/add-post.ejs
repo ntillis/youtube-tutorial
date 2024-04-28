@@ -10,5 +10,17 @@
     <label for="body"><b>Content</b></label>
     <textarea name="body" cols="50" rows="10"></textarea>
 
+    <label><b>Tags</b></label><br>
+    <% tags.forEach(tag => { %>
+        <input type="checkbox" id="<%= tag.name %>" name="tags" value="<%= tag._id %>">
+        <label for="<%= tag.name %>"><%= tag.name %></label><br>
+    <% }) %>
+
     <input type="submit" value="Add" class="btn">
+</form>
+
+<form action="/tags" method="POST">
+    <label for="tagName">Tag Name:</label>
+    <input type="text" id="tagName" name="name" required>
+    <button type="submit" class="btn">Create Tag</button>
 </form>

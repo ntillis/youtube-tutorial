@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const TagSchema = require('./Tag');
 
 const Schema = mongoose.Schema;
 
@@ -35,6 +36,7 @@ const PostSchema = new Schema({
         required: true
     },
     comments: [CommentSchema],
+    tags: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Tag' }],
     createdAt: {
         type: Date,
         default: Date.now
