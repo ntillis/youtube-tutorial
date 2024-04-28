@@ -3,14 +3,21 @@
 
     <ul class="article_ul">
 
-        <% posts.forEach(post => { %>
-        <li>
-            <a href="/post/<%= post._id %>">
-                <span><%= post.title %></span>
-                <span class="article-list_date"><%= post.createdAt.toDateString() %></span>
-            </a>
-        </li>
-        <% }) %>
+        <% if (posts.length == 0) { %>
+            <p>No posts available</p>
+
+        <% } else { %>
+        
+            <% posts.forEach(post => { %>
+            <li>
+                <a href="/post/<%= post._id %>">
+                    <span><%= post.title %></span>
+                    <span class="article-list_date"><%= post.createdAt.toDateString() %></span>
+                </a>
+            </li>
+            <% }) %>
+
+        <% } %>
 
     </ul>
 </div>

@@ -1,0 +1,16 @@
+<section class="articles">
+    <h1 class="articles_heading">All Tags</h2>
+
+    <ul class="article_ul">
+
+        <% tags.forEach(tag => { %>
+            <li>
+                <a href="/search/tags/<%= tag.name %>">
+                    <span><%= tag.name %></span>
+                </a>
+            </li>
+        <% }) %>
+
+    </ul>
+
+</section>

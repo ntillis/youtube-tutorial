@@ -12,29 +12,58 @@ router.get('', async (req, res) => {
         }
 
         let perPage = 5;
-        let page = req.query.page || 1;
 
         const data = await Post.aggregate([ { $sort: { createdAt: -1 }}])
-        .skip(perPage * page - perPage)
         .limit(perPage)
         .exec();
 
-        const tags = await Tag.find();
-
-        const count = await Post.countDocuments();
-        const nextPage = parseInt(page) + 1;
-        const hasNextPage = nextPage <= Math.ceil(count/perPage);
-
+        const tags = await Tag.find().limit(3);
 
         res.render('index', { 
             locals, 
             data,
             tags,
-            current: page,
-            nextPage: hasNextPage ? nextPage : null,
             currentRoute: '/'
         });
 
+    } catch (error) {
+        console.log(error);
+    }
+});
+
+router.get('/search/all-blogs', async (req, res) => {
+    try {
+        const locals = {
+            title: "ta12am | all blogs",
+            description: "All blog posts"
+        }
+
+        const data = await Post.find();
+
+        res.render('all-blogs', {
+            locals,
+            data,
+            currentRoute: '/search/all-blogs'
+        })
+    } catch (error) {
+        console.log(error);
+    }
+});
+
+router.get('/search/all-tags', async (req, res) => {
+    try {
+        const locals = {
+            title: "ta12am | tags",
+            description: "All tags"
+        }
+
+        const tags = await Tag.find();
+
+        res.render('all-tags', {
+            locals,
+            tags,
+            currentRoute: '/search/all-tags'
+        })
     } catch (error) {
         console.log(error);
     }
@@ -114,7 +143,7 @@ router.get('/search/tags/:name', async (req, res) => {
     try {
         const tagName = req.params.name;
         const locals = {
-            title: tagName + " blogs",
+            title: "ta12am | " + tagName,
             description: "blogs that have the corresponding tag"
         }
         const tag = await Tag.findOne({ name: tagName });

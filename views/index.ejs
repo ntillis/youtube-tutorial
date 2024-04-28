@@ -32,7 +32,7 @@
         <% }) %>
 
     </ul>
-    <a href="#" class="pagination">&lt; View all tags</a>
+    <a href="/search/all-tags" class="pagination">&lt; View all tags</a>
 </section>
 
 <section class="articles">
@@ -51,9 +51,7 @@
 
     </ul>
 
-    <% if (nextPage !== null) { %>
-        <a href="/?page=<%= nextPage %>" class="pagination">&lt; View All Posts</a>
-    <% } %>
+    <a href="search/all-blogs" class="pagination">&lt; View All Posts</a>
 </section>
 
 <div class="container subscription">
