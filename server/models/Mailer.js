@@ -11,6 +11,10 @@ const MailerSchema = new Schema({
         type: String,
         required: true
     },
+    token: {
+        type: String,
+        unique: true
+    },
     verfied: {
         type: Boolean,
         default: false

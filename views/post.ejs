@@ -6,13 +6,11 @@
 <h2>Comments</h2>
 <% if (data.comments.length > 0) { %>
     <% data.comments.forEach(comment => { %>
-        <% if (comment.approved) { %>
-            <div class="comment">
-                <h4><%= comment.name %></h4>
-                <p><%= comment.createdAt.toDateString() %></p>
-                <p><%= comment.message %></p>
-            </div>
-        <% } %>
+        <div class="comment">
+            <h4><%= comment.name %></h4>
+            <p><%= comment.createdAt.toDateString() %></p>
+            <p><%= comment.message %></p>
+        </div>
     <% }) %>
 <% } else { %>
     <p>No comments yet.</p>

@@ -1,8 +1,23 @@
 const express = require('express');
+const crypto = require('crypto');
 const router = express.Router();
 const Post = require('../models/Post');
 const Mailer = require('../models/Mailer')
 const Tag = require('../models/Tag')
+
+function generateVerificationToken() {
+    return crypto.randomBytes(20).toString('hex');
+}
+
+async function sendVerificationEmail(email, token) {
+  const mailOptions = {
+    from: 'thinkingat12am@gmail.com',
+    to: email,
+    subject: 'Thinking at 12am | Email Verification',
+    html: `<p>Click <a href="http://localhost:3000/verify/${token}">here</a> to verify your email.</p>`,
+  };
+  await transporter.sendMail(mailOptions);
+}
 
 router.get('', async (req, res) => {
     try {
@@ -164,15 +179,7 @@ router.get('/search/tags/:name', async (req, res) => {
 router.post('/subscribe', async (req, res) => {
     try {
         const { email, fName } = req.body;
-        try {
-            const user = await Mailer.create({ email, fName })
-            res.redirect('/');
-        } catch (error) {
-            if (error.code === 11000) {
-                res.status(409).json({ message: 'Email already in use'});
-            }
-            res.status(500);
-        }
+        const token = generateVerificationToken();
     } catch (error) {
         console.log(error);
     }
