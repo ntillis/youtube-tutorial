@@ -12,7 +12,6 @@ const connectDB = require('./server/config/db');
 const { isActiveRoute } = require('./server/helpers/routeHelpers');
 
 const app = express();
-const PORT = 3000 || process.env.PORT;
 
 connectDB();
 
@@ -42,6 +41,7 @@ app.locals.isActiveRoute = isActiveRoute;
 app.use('/', require('./server/routes/main'));
 app.use('/', require('./server/routes/admin'));
 
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-    console.log(`App listening on port ${PORT}`);
-})
+  console.log(`Server is running on port ${PORT}`);
+});
