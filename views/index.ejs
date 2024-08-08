@@ -23,33 +23,12 @@
 
     <ul class="article_ul">
 
-        <% tags.forEach(tag => { %>
-        <li>
-            <a href="/search/tags/<%= tag.name %>">
-                <span><%= tag.name %></span>
-            </a>
-        </li>
-        <% }) %>
-
     </ul>
     <a href="/search/all-tags" class="pagination">&lt; View all tags</a>
 </section>
 
 <section class="articles">
     <h2 class="articles_heading">Recent Posts</h2>
-
-    <ul class="article_ul">
-
-        <% data.forEach(post => { %>
-        <li>
-            <a href="/post/<%= post._id %>">
-                <span><%= post.title %></span>
-                <span class="article-list_date"><%= post.createdAt.toDateString() %></span>
-            </a>
-        </li>
-        <% }) %>
-
-    </ul>
 
     <a href="search/all-blogs" class="pagination">&lt; View All Posts</a>
 </section>
